@@ -19,6 +19,11 @@
             margin-top: 0;
         }
 
+        .card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
         .card p {
             margin-bottom: 0;
         }
@@ -44,7 +49,12 @@
             title.textContent = article.title;
             card.appendChild(title);
 
-            
+            if (article.image_url) {
+                const image = document.createElement('img');
+                image.src = article.image_url;
+                image.alt = article.title;
+                card.appendChild(image);
+            }
 
             const description = document.createElement('p');
             description.textContent = article.description;
