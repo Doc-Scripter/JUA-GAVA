@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jua Gava</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .card p {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <h1>Trending Feeds</h1>
+    </header>
+    <div id="news-container"></div>
+
+    <script>
+        // https://newsdata.io/api/1/archive?apikey=pub_485072b54937de67b85c5d185da21f0b5bbad&q=example&language=en&from_date=2023-01-19&to_date=2023-01-25&category=technology&country=us&category=technology&category=entertainment&category=
+        const apiEndpoint = 'https://newsdata.io/api/1/latest?apikey=pub_485072b54937de67b85c5d185da21f0b5bbad&q=politics&country=ke';
+
+        // Function to create a card element
+        function createCard(article) {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const title = document.createElement('h2');
+            title.textContent = article.title;
+            card.appendChild(title);
+
+            
+
+            const description = document.createElement('p');
+            description.textContent = article.description;
+            card.appendChild(description);
+
+            const link = document.createElement('a');
+            link.href = article.link;
+            link.textContent = 'Read more';
+            link.target = '_blank';
+            card.appendChild(link);
+
+            return card;
+        }
+
+
+        // Function to fetch data from the API
+        async function fetchData() {
+            try {
+                const response = await fetch(apiEndpoint);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                const newsContainer = document.getElementById('news-container');
+                data.results.forEach(article => {
+                    const card = createCard(article);
+                    newsContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        // Call the function to fetch data
+        fetchData();
+    </script>
+
+</body>
+
+</html>
